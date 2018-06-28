@@ -16,7 +16,8 @@
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
         <div class="inner">
-          <h3 class="masthead-brand">Cover</h3>
+          <!-- <h3 class="masthead-brand">Cover</h3> -->
+          <img class="img-responsive masthead-brand logo" src="<?php echo base_url()?>assets/img/test/testlogo.png">
           <nav class="nav nav-masthead justify-content-center">
             <a class="nav-link active" href="<?php echo base_url('Cover')?>">Home</a>
             <a class="nav-link" href="<?php echo base_url('auction/Auction')?>">Auction</a>
@@ -27,6 +28,9 @@
       </header>
       <main role="main" class="inner cover">
         <h1 class="cover-heading" id="cd"></h1>
+        <div class="row">
+          <img class="img-responsive img-thumbnail" src="<?php echo base_url()?>assets/img/test/testbanner.jpg">
+        </div>
         <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
         <p class="lead">
           <a href="#" class="btn btn-lg btn-secondary">Learn more</a>
@@ -46,7 +50,7 @@
     <script src="<?php echo base_url('assets/js/bootstrap.min.js')?>"></script>
     <script>
       // Set the date we're counting down to
-      var countDownDate = new Date("June 30, 2018 15:37:25").getTime();
+      var countDownDate = new Date("August 22, 2018 00:00:01").getTime();
       // Update the count down every 1 second
       var x = setInterval(function()
       {

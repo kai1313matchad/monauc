@@ -17,7 +17,8 @@
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
         <div class="inner">
-          <h3 class="masthead-brand">Cover</h3>
+          <!-- <h3 class="masthead-brand">Cover</h3> -->
+          <img class="img-responsive masthead-brand logo" src="<?php echo base_url()?>assets/img/test/testlogo.png">
           <nav class="nav nav-masthead justify-content-center">
             <a class="nav-link" href="<?php echo base_url('Cover')?>">Home</a>
             <a class="nav-link" href="<?php echo base_url('auction/Auction')?>">Auction</a>

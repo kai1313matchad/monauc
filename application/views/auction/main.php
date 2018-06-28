@@ -17,7 +17,8 @@
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
         <div class="inner">
-          <h3 class="masthead-brand">Cover</h3>
+          <!-- <h3 class="masthead-brand">MATCH ADVERTISING</h3> -->
+          <img class="img-responsive masthead-brand logo" src="<?php echo base_url()?>assets/img/test/testlogo.png">
           <nav class="nav nav-masthead justify-content-center">
             <a class="nav-link" href="<?php echo base_url('Cover')?>">Home</a>
             <a class="nav-link active" href="<?php echo base_url('auction/Auction')?>">Auction</a>
@@ -33,17 +34,21 @@
         <div class="card-deck mb-3 text-center">
           <div class="card mb-4 box-shadow">
             <div class="card-header">
-              <h4 class="my-0 font-weight-normal header-color">Pro</h4>
+              <h4 class="my-0 font-weight-normal header-color">MATCHAD AUCTION - LOREMIPSUM</h4>
             </div>
             <div class="card-body">
-              <h1 class="card-title pricing-card-title header-color">$15 <small class="text-muted">/ mo</small></h1>
+              <div class="row">
+                <img class="img-responsive img-thumbnail" src="<?php echo base_url()?>assets/img/test/testprod.jpeg">
+              </div>
+              <h1 name="bidprice" class="card-title pricing-card-title header-color">Rp150.000.000 <small class="text-muted">/ year</small></h1>
               <ul class="list-unstyled mt-3 mb-4">
                 <li>20 users included</li>
                 <li>10 GB of storage</li>
                 <li>Priority email support</li>
                 <li>Help center access</li>
               </ul>
-              <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
+              <button onclick="bidbtn()" name="bidbtn" type="button" class="btn btn-lg btn-block btn-primary">Bid</button>
+              <button type="button" class="btn btn-lg btn-block btn-danger">Buyout</button>
             </div>
           </div>
         </div>
@@ -62,30 +67,12 @@
     <script src="<?php echo base_url('assets/js/bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/js/holder.min.js')?>"></script>
     <script>
-      // Set the date we're counting down to
-      var countDownDate = new Date("June 30, 2018 15:37:25").getTime();
-      // Update the count down every 1 second
-      var x = setInterval(function()
+      function bidbtn()
       {
-          // Get todays date and time
-          var now = new Date().getTime();          
-          // Find the distance between now an the count down date
-          var distance = countDownDate - now;        
-          // Time calculations for days, hours, minutes and seconds
-          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          var seconds = Math.floor((distance % (1000 * 60)) / 1000);        
-          // Output the result in an element with id="demo"
-          document.getElementById("cd").innerHTML = days + "d " + hours + "h "
-          + minutes + "m " + seconds + "s ";          
-          // If the count down is over, write some text 
-          if (distance < 0)
-          {
-              clearInterval(x);
-              document.getElementById("cd").innerHTML = "EXPIRED";
-          }
-      }, 1000);
+        $('[name="bidbtn"]').prop('disabled',true);
+        $('[name="bidprice"]').text('');
+        $('[name="bidprice"]').append('Rp160.000.000 <small class="text-muted">/ year</small>');
+      }
     </script>
   </body>
 </html>
