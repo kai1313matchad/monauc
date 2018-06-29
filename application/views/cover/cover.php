@@ -28,9 +28,7 @@
       </header>
       <main role="main" class="inner cover">
         <h1 class="cover-heading" id="cd"></h1>
-        <div class="row">
-          <img class="img-responsive img-thumbnail" src="<?php echo base_url()?>assets/img/test/testbanner.jpg">
-        </div>
+        <img class="img-responsive img-thumbnail" src="<?php echo base_url()?>assets/img/test/testbanner.jpg">
         <p class="lead">Pertama kali di Indonesia. Lelang Billboard Online.</p>
         <p class="lead">
           <div class="row">

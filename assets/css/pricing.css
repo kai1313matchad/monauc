@@ -38,7 +38,8 @@ html {
 .sold {
   position: absolute;
   z-index: 1;
-  vertical-align: middle;  
+  vertical-align: middle;
+  top: 100px;  
   background: none;
   border: none;
   width: 150%;

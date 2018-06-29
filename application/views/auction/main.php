@@ -37,7 +37,7 @@
               <h4 class="my-0 font-weight-normal header-color">MATCHAD AUCTION - BB/0618/PROBOLINGGO</h4>
             </div>
             <div class="card-body">
-              <div class="row">
+              <div>
                 <img class="img-responsive img-thumbnail" src="<?php echo base_url()?>assets/img/test/testprod.jpeg">
                 <img name="bidsold" class="img-responsive img-thumbnail" src="<?php echo base_url()?>assets/img/test/sold.png">
               </div>
