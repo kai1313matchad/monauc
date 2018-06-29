@@ -33,7 +33,17 @@
         </div>
         <p class="lead">Pertama kali di Indonesia. Lelang Billboard Online.</p>
         <p class="lead">
-          <a href="https://www.matchadonline.com" target="blank__" class="btn btn-lg btn-secondary">Syarat dan Ketentuan</a>
+          <div class="row">
+            <div class="col-md-4">
+              <a href="https://www.matchadonline.com/Probolinggo-Jl-Soekarno-Hatta-to-Surabaya?search=probolinggo" target="blank__" class="btn btn-block btn-primary">Lihat Lokasi</a>
+            </div>
+            <div class="col-md-4">
+              <a href="https://www.matchadonline.com/Promo" target="blank__" class="btn btn-block btn-secondary">Syarat dan Ketentuan</a>
+            </div>
+            <div class="col-md-4">
+              <a href="<?php echo base_url('auction/Auction')?>" class="btn btn-block btn-danger">Mulai Lelang</a>
+            </div>
+          </div>          
         </p>
       </main>
       <footer class="mastfoot mt-auto">

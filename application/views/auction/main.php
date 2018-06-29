@@ -84,6 +84,8 @@
         $('[name="bidsold"]').addClass('sold');
         $('[name="bidbtn"]').prop('disabled',true);
         $('[name="bidsoldbtn"]').prop('disabled',true);
+        $('[name="bidprice"]').text('');
+        $('[name="bidprice"]').append('Rp300.000.000 <small class="text-muted">/ year</small>');
       }
     </script>
   </body>
