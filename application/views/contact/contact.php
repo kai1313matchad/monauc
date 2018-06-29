@@ -30,9 +30,12 @@
       <main role="main" class="inner cover">
         <div class="jumbotron jumbo">
           <div class="container">
-            <h1 class="display-3">Hello, world!</h1>
-            <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+            <h1 class="display-3">Match Advertising</h1>
+            <p>
+              Surabaya : Jl. Lesti No. 42 - 60241<br>
+              Jakarta : Jl. Balikpapan Raya No No.19A - 10160 
+            </p>
+            <p><a class="btn btn-primary btn-lg" href="https://www.matchadonline.com" target="blank__" role="button">Info Lainnya &raquo;</a></p>
           </div>
         </div>
       </main>

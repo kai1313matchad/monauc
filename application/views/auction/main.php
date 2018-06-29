@@ -34,21 +34,22 @@
         <div class="card-deck mb-3 text-center">
           <div class="card mb-4 box-shadow">
             <div class="card-header">
-              <h4 class="my-0 font-weight-normal header-color">MATCHAD AUCTION - LOREMIPSUM</h4>
+              <h4 class="my-0 font-weight-normal header-color">MATCHAD AUCTION - BB/0618/PROBOLINGGO</h4>
             </div>
             <div class="card-body">
               <div class="row">
                 <img class="img-responsive img-thumbnail" src="<?php echo base_url()?>assets/img/test/testprod.jpeg">
+                <img name="bidsold" class="img-responsive img-thumbnail" src="<?php echo base_url()?>assets/img/test/sold.png">
               </div>
               <h1 name="bidprice" class="card-title pricing-card-title header-color">Rp150.000.000 <small class="text-muted">/ year</small></h1>
-              <ul class="list-unstyled mt-3 mb-4">
-                <li>20 users included</li>
-                <li>10 GB of storage</li>
+              <!-- <ul class="list-unstyled mt-3 mb-4">
+                <li>JL Soekarno Hatta</li>
+                <li>Horizontal</li>
                 <li>Priority email support</li>
                 <li>Help center access</li>
-              </ul>
+              </ul> -->
               <button onclick="bidbtn()" name="bidbtn" type="button" class="btn btn-lg btn-block btn-primary">Bid</button>
-              <button type="button" class="btn btn-lg btn-block btn-danger">Buyout</button>
+              <button onclick="bidsoldbtn()" name="bidsoldbtn" type="button" class="btn btn-lg btn-block btn-danger">Buyout</button>
             </div>
           </div>
         </div>
@@ -67,11 +68,22 @@
     <script src="<?php echo base_url('assets/js/bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/js/holder.min.js')?>"></script>
     <script>
+      $(document).ready(function()
+      {
+        $('[name="bidsold"]').css({'display':'none'});
+      })
       function bidbtn()
       {
         $('[name="bidbtn"]').prop('disabled',true);
         $('[name="bidprice"]').text('');
         $('[name="bidprice"]').append('Rp160.000.000 <small class="text-muted">/ year</small>');
+      }
+      function bidsoldbtn()
+      {
+        $('[name="bidsold"]').css({'display':'block'});
+        $('[name="bidsold"]').addClass('sold');
+        $('[name="bidbtn"]').prop('disabled',true);
+        $('[name="bidsoldbtn"]').prop('disabled',true);
       }
     </script>
   </body>
