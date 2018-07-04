@@ -9,6 +9,17 @@ class Admin extends CI_Controller
 
 	public function dashboard()
 	{
+		// $this->authsys->master_check_($_SESSION['user_id'],'USR');
+		// $data['title']='Lelang Billboard Match Advertising';
+		// $data['menu']='Dashboard';
+		// $data['menulist']='person';
+		// $data['content']='admin/dashboard';
+		// $this->load->view('admin/layout/wrapper',$data);
 		$this->load->view('admin/dashboard');
+	}
+
+	public function users()
+	{
+		$this->load->view('admin/users');
 	}
 }
