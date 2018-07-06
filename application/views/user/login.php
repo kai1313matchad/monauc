@@ -22,27 +22,44 @@
           <nav class="nav nav-masthead justify-content-center">
             <a class="nav-link" href="<?php echo base_url('Cover')?>">Home</a>
             <a class="nav-link" href="<?php echo base_url('auction/Auction')?>">Auction</a>
-            <a class="nav-link active" href="<?php echo base_url('user/User')?>">Sign In</a>
+            <a class="nav-link active" href="<?php echo base_url('user/User')?>"><?php if($this->session->userdata('user_id')!=''){echo $this->session->userdata('user_name');} else {echo 'Sign In';} ;?></a>
             <a class="nav-link" href="<?php echo base_url('contact/Contact')?>">Contact</a>
           </nav>
         </div>
       </header>
-      <main role="main" class="inner cover">
-        <form class="form-signin">
+      <input type="hidden" name="userid" value="<?= $this->session->userdata('user_id')?>">
+      <main role="main" class="inner cover" id="signin">
+        <form class="form-signin" id="form-signin">
           <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+          <div class="row">                            
+            <?php
+              if(isset($_SESSION['alert']))
+              {
+                echo $_SESSION['alert'];
+              }
+            ?>
+          </div>
           <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-          <label for="inputEmail" class="sr-only">Email address</label>
-          <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+          <label for="inputUsername" class="sr-only">Username</label>
+          <input type="text" id="inputUsername" class="form-control" name="username" placeholder="Username" required autofocus>
           <label for="inputPassword" class="sr-only">Password</label>
-          <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+          <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
           <div class="checkbox mb-3">
             <label>
               <input type="checkbox" value="remember-me"> Remember me
             </label>
           </div>
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+          <button class="btn btn-lg btn-primary btn-block" type="button" onclick="loginsys()">Sign in</button>
           <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
         </form>
+      </main>
+      <main role="main" class="inner cover" id="signedin">
+        <div class="jumbotron jumbo">
+          <div class="container">
+            <h1 class="display-3">Hello <?= $this->session->userdata('user_name');?></h1>
+            <a href="<?php echo base_url('user/User/logout_')?>" class="btn btn-lg btn-danger btn-block">Sign Out</a>
+          </div>
+        </div>
       </main>
       <footer class="mastfoot mt-auto">
         <div class="inner">
@@ -53,34 +70,47 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="<?php echo base_url('assets/js/jquery-slim.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/js/jquery-2.2.3.min.js')?>"></script>
     <script src="<?php echo base_url('assets/js/popper.min.js')?>"></script>
     <script src="<?php echo base_url('assets/js/bootstrap.min.js')?>"></script>
     <script>
-      // Set the date we're counting down to
-      var countDownDate = new Date("June 30, 2018 15:37:25").getTime();
-      // Update the count down every 1 second
-      var x = setInterval(function()
+      $(document).ready(function() 
       {
-          // Get todays date and time
-          var now = new Date().getTime();          
-          // Find the distance between now an the count down date
-          var distance = countDownDate - now;        
-          // Time calculations for days, hours, minutes and seconds
-          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          var seconds = Math.floor((distance % (1000 * 60)) / 1000);        
-          // Output the result in an element with id="demo"
-          document.getElementById("cd").innerHTML = days + "d " + hours + "h "
-          + minutes + "m " + seconds + "s ";          
-          // If the count down is over, write some text 
-          if (distance < 0)
-          {
-              clearInterval(x);
-              document.getElementById("cd").innerHTML = "EXPIRED";
-          }
-      }, 1000);
+        if($('[name="userid"]').val()!='')
+        {
+          $('#signedin').css({'display':'block'});
+          $('#signin').css({'display':'none'});
+        }
+        else
+        {
+          $('#signedin').css({'display':'none'});
+          $('#signin').css({'display':'block'});
+        }
+      });
+      function loginsys()
+      {
+          $.ajax({
+            url : "<?php echo site_url('user/User/loginauth_')?>",
+            type: "POST",
+            data: $('#form-signin').serialize(),
+            dataType: "JSON",
+            success: function(data)
+            {
+              if(data.status)
+              {
+                location.reload(false);
+              }
+              else
+              {
+                location.reload(false);
+              }
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+              alert('Error adding / update data');
+            }
+          });
+      }
     </script>
   </body>
 </html>

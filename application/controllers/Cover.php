@@ -4,6 +4,6 @@ class Cover extends CI_Controller
 {
 	public function index()
 	{
-		$this->load->view('cover/cover2');
+		$this->load->view('cover/cover');
 	}
 }

@@ -6,4 +6,11 @@ class Auction extends CI_Controller
 	{
 		$this->load->view('auction/main');
 	}
+
+	public function aucdata()
+	{
+		$this->db->from('mona_aucgame a');
+		$this->db->join('mona_product b','b.prod_id = a.prod_id');
+		$this->db->get();
+	}
 }
