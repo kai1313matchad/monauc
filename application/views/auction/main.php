@@ -22,7 +22,7 @@
           <nav class="nav nav-masthead justify-content-center">
             <a class="nav-link" href="<?php echo base_url('Cover')?>">Home</a>
             <a class="nav-link active" href="<?php echo base_url('auction/Auction')?>">Auction</a>
-            <a class="nav-link" href="<?php echo base_url('user/User')?>">Sign In</a>
+            <a class="nav-link" href="<?php echo base_url('user/User')?>"><?php if($this->session->userdata('user_id')!=''){echo $this->session->userdata('user_name');} else {echo 'Sign In';} ;?></a>
             <a class="nav-link" href="<?php echo base_url('contact/Contact')?>">Contact</a>
           </nav>
         </div>
@@ -34,7 +34,7 @@
         <div class="card-deck mb-3 text-center">
           <div class="card mb-4 box-shadow">
             <div class="card-header">
-              <h4 class="my-0 font-weight-normal header-color">MATCHAD AUCTION - BB/0618/PROBOLINGGO</h4>
+              <h4 class="my-0 font-weight-normal header-color" name="auc_title">MATCHAD AUCTION - BB/0618/PROBOLINGGO</h4>
             </div>
             <div class="card-body">
               <div>
@@ -48,6 +48,10 @@
                 <li>Priority email support</li>
                 <li>Help center access</li>
               </ul> -->
+              <form id="form_bid">
+                <input type="hidden" name="auc_id" value="">
+                <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id');?>">
+              </form>
               <button onclick="bidbtn()" name="bidbtn" type="button" class="btn btn-lg btn-block btn-primary">Bid</button>
               <button onclick="bidsoldbtn()" name="bidsoldbtn" type="button" class="btn btn-lg btn-block btn-danger">Buyout</button>
             </div>
@@ -63,7 +67,7 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="<?php echo base_url('assets/js/jquery-slim.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/js/jquery-2.2.3.min.js')?>"></script>
     <script src="<?php echo base_url('assets/js/popper.min.js')?>"></script>
     <script src="<?php echo base_url('assets/js/bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/js/holder.min.js')?>"></script>
@@ -71,12 +75,26 @@
       $(document).ready(function()
       {
         $('[name="bidsold"]').css({'display':'none'});
+        aucdata();
       })
       function bidbtn()
       {
-        $('[name="bidbtn"]').prop('disabled',true);
-        $('[name="bidprice"]').text('');
-        $('[name="bidprice"]').append('Rp160.000.000 <small class="text-muted">/ year</small>');
+        // $('[name="bidbtn"]').prop('disabled',true);
+        // $('[name="bidprice"]').text('');
+        // $('[name="bidprice"]').append('Rp160.000.000 <small class="text-muted">/ year</small>');
+        $.ajax({
+          url : "<?php echo site_url('auction/Auction/aucbid')?>",
+          type: "GET",
+          dataType: "JSON",
+          success: function(data)
+          {
+            alert(data.msg);
+          },
+          error: function (jqXHR, textStatus, errorThrown)
+          {
+            alert('Error adding / update data');
+          }
+        });
       }
       function bidsoldbtn()
       {
@@ -86,6 +104,26 @@
         $('[name="bidsoldbtn"]').prop('disabled',true);
         $('[name="bidprice"]').text('');
         $('[name="bidprice"]').append('Rp300.000.000 <small class="text-muted">/ year</small>');
+      }
+      function aucdata()
+      {
+        $.ajax({
+          url : "<?php echo site_url('auction/Auction/aucdata')?>",
+          type: "GET",
+          dataType: "JSON",
+          success: function(data)
+          {
+            $('[name="auc_title"]').text('MATCHAD AUCTION - '+data.PROD_ID);
+            $('[name="auc_id"]').val(data.AUCG_ID);
+            var out = parseFloat((data.LAST_BID).replace(/,/g, "")).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            $('[name="bidprice"]').text('');
+            $('[name="bidprice"]').append('Rp'+out+' <small class="text-muted">/ year</small>');
+          },
+          error: function (jqXHR, textStatus, errorThrown)
+          {
+            alert('Error adding / update data');
+          }
+        });
       }
     </script>
   </body>

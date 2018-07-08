@@ -21,7 +21,7 @@
           <nav class="nav nav-masthead justify-content-center">
             <a class="nav-link active" href="<?php echo base_url('Cover')?>">Home</a>
             <a class="nav-link" href="<?php echo base_url('auction/Auction')?>">Auction</a>
-            <a class="nav-link" href="<?php echo base_url('user/User')?>">Sign In</a>
+            <a class="nav-link" href="<?php echo base_url('user/User')?>"><?php if($this->session->userdata('user_id')!=''){echo $this->session->userdata('user_name');} else {echo 'Sign In';} ;?></a>
             <a class="nav-link" href="<?php echo base_url('contact/Contact')?>">Contact</a>
           </nav>
         </div>
