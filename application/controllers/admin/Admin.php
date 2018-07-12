@@ -13,13 +13,13 @@ class Admin extends CI_Controller
 		// $data['title']='Lelang Billboard Match Advertising';
 		// $data['menu']='Dashboard';
 		// $data['menulist']='person';
-		// $data['content']='admin/dashboard';
-		// $this->load->view('admin/layout/wrapper',$data);
-		$this->load->view('admin/dashboard');
+		$data['content']='admin/dashboard';
+		$this->load->view('admin/layout/wrapper',$data);
 	}
 
 	public function users()
 	{
-		$this->load->view('admin/users');
+		$data['content']='admin/user';
+		$this->load->view('admin/layout/wrapper',$data);
 	}
 }

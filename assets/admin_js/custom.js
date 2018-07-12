@@ -49,7 +49,44 @@ var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
     $NAV_MENU = $('.nav_menu'),
     $FOOTER = $('footer');
 
-	
+//custom validation
+$("input").change(function(){
+	$(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+ });
+$("textarea").change(function(){
+	$(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+ });
+$("select").change(function(){
+	$(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+ });
+$('select').on('click',function(){                
+    $(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+});
+$('input').on('click',function(){                
+    $(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+});
+$('textarea').on('click',function(){                
+    $(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+});
+$('select').blur(function(){                
+    $(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+});
+$('input').blur(function(){                
+    $(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+});
+$('textarea').blur(function(){                
+    $(this).parent().parent().removeClass('has-error');
+    $(this).next().empty();
+});
+//custom validation end	
 	
 // Sidebar
 function init_sidebar() {
@@ -992,6 +1029,23 @@ if (typeof NProgress != 'undefined') {
 				$('.bs-callout-warning').removeClass('hidden');
 			  }
 			};
+
+			$/*.listen*/('parsley:field:validate', function() {
+			  validateFront();
+			});
+			$('#form-users .btn').on('click', function() {
+			  $('#form-users').parsley().validate();
+			  validateFront();
+			});
+			var validateFront = function() {
+			  if (true === $('#form-users').parsley().isValid()) {
+				$('.bs-callout-info').removeClass('hidden');
+				$('.bs-callout-warning').addClass('hidden');
+			  } else {
+				$('.bs-callout-info').addClass('hidden');
+				$('.bs-callout-warning').removeClass('hidden');
+			  }
+			};
 			
 			  try {
 				hljs.initHighlightingOnLoad();
@@ -1833,6 +1887,18 @@ if (typeof NProgress != 'undefined') {
         return false;
 		});
 	  
+	  };
+
+	  function form_val(form_)
+	  {
+	  	var submit = true;
+        // evaluate the form using generic validaing
+        if (!validator.checkAll($(form_))) {
+          submit = false;
+        }
+        if (submit)
+          return true;
+        return false;
 	  };
 	   
 	  	/* PNotify */

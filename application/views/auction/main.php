@@ -50,6 +50,8 @@
               </ul> -->
               <form id="form_bid">
                 <input type="hidden" name="auc_id" value="">
+                <input type="hidden" name="auc_bidnom" value="">
+                <input type="hidden" name="auc_bid" value="10000000">
                 <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id');?>">
               </form>
               <button onclick="bidbtn()" name="bidbtn" type="button" class="btn btn-lg btn-block btn-primary">Bid</button>
@@ -76,6 +78,7 @@
       {
         $('[name="bidsold"]').css({'display':'none'});
         aucdata();
+        checkbid();
       })
       function bidbtn()
       {
@@ -84,11 +87,14 @@
         // $('[name="bidprice"]').append('Rp160.000.000 <small class="text-muted">/ year</small>');
         $.ajax({
           url : "<?php echo site_url('auction/Auction/aucbid')?>",
-          type: "GET",
+          type: "POST",
+          data: $('#form_bid').serialize(),
           dataType: "JSON",
           success: function(data)
           {
             alert(data.msg);
+            aucdata();
+            checkbid();
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
@@ -98,12 +104,29 @@
       }
       function bidsoldbtn()
       {
-        $('[name="bidsold"]').css({'display':'block'});
-        $('[name="bidsold"]').addClass('sold');
-        $('[name="bidbtn"]').prop('disabled',true);
-        $('[name="bidsoldbtn"]').prop('disabled',true);
-        $('[name="bidprice"]').text('');
-        $('[name="bidprice"]').append('Rp300.000.000 <small class="text-muted">/ year</small>');
+        // $('[name="bidsold"]').css({'display':'block'});
+        // $('[name="bidsold"]').addClass('sold');
+        // $('[name="bidbtn"]').prop('disabled',true);
+        // $('[name="bidsoldbtn"]').prop('disabled',true);
+        // $('[name="bidprice"]').text('');
+        // $('[name="bidprice"]').append('Rp300.000.000 <small class="text-muted">/ year</small>');
+        $.ajax({
+          url : "<?php echo site_url('auction/Auction/aucbuyout')?>",
+          type: "POST",
+          data: $('#form_bid').serialize(),
+          dataType: "JSON",
+          success: function(data)
+          {
+            alert(data.msg);
+            aucdata();
+            checkbid();
+            location.reload(false);
+          },
+          error: function (jqXHR, textStatus, errorThrown)
+          {
+            alert('Error adding / update data');
+          }
+        });
       }
       function aucdata()
       {
@@ -115,9 +138,43 @@
           {
             $('[name="auc_title"]').text('MATCHAD AUCTION - '+data.PROD_ID);
             $('[name="auc_id"]').val(data.AUCG_ID);
+            $('[name="auc_bidnom"]').val(data.LAST_BID);
             var out = parseFloat((data.LAST_BID).replace(/,/g, "")).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             $('[name="bidprice"]').text('');
             $('[name="bidprice"]').append('Rp'+out+' <small class="text-muted">/ year</small>');
+          },
+          error: function (jqXHR, textStatus, errorThrown)
+          {
+            alert('Error adding / update data');
+          }
+        });
+      }
+      function checkbid()
+      {
+        $.ajax({
+          url : "<?php echo site_url('auction/Auction/getlastbid')?>",
+          type: "GET",
+          dataType: "JSON",
+          success: function(data)
+          {
+            if(data.BIDH_STS!='1')
+            {
+              if(data.BIDH_NOM == $('[name="auc_bidnom"]').val() && data.USER_ID == $('[name="user_id"]').val() && data.AUCG_ID == $('[name="auc_id"]').val())
+              {
+                $('[name="bidbtn"]').prop('disabled',true);
+                $('[name="bidbtn"]').text('Tunggu Bid Lain');
+              }
+            }
+            else
+            {
+              $('[name="bidsold"]').css({'display':'block'});
+              $('[name="bidsold"]').addClass('sold');
+              $('[name="bidbtn"]').prop('disabled',true);
+              $('[name="bidsoldbtn"]').prop('disabled',true);
+              var out = parseFloat((data.LAST_BID).replace(/,/g, "")).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+              $('[name="bidprice"]').text('');
+              $('[name="bidprice"]').append('Rp'+out+' <small class="text-muted">/ year</small>');
+            }
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
