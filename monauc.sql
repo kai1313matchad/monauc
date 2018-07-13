@@ -37,10 +37,10 @@ CREATE TABLE IF NOT EXISTS `mona_aucgame` (
   CONSTRAINT `FK_AUC_1` FOREIGN KEY (`PROD_ID`) REFERENCES `mona_product` (`PROD_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table monauc.mona_aucgame: ~1 rows (approximately)
+-- Dumping data for table monauc.mona_aucgame: ~0 rows (approximately)
 /*!40000 ALTER TABLE `mona_aucgame` DISABLE KEYS */;
 INSERT INTO `mona_aucgame` (`AUCG_ID`, `PROD_ID`, `AUCG_DATE`, `LAST_BID`, `AUCG_DTSTS`) VALUES
-	('AUC001', 'BB0618PROBO', '2018-07-06', 0, '1');
+	('AUC001', 'BB0618PROBO', '2018-07-06', 190000000, '1');
 /*!40000 ALTER TABLE `mona_aucgame` ENABLE KEYS */;
 
 -- Dumping structure for table monauc.mona_bidhistory
@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS `mona_bidhistory` (
   `AUCG_ID` char(20) DEFAULT NULL,
   `BIDH_NOM` bigint(20) NOT NULL,
   `BIDH_TIME` time NOT NULL,
+  `BIDH_STS` char(1) NOT NULL,
   PRIMARY KEY (`BIDH_ID`),
   KEY `FK_BIDH1` (`USER_ID`),
   KEY `FK_BIDH2` (`AUCG_ID`),
@@ -58,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `mona_bidhistory` (
   CONSTRAINT `FK_BIDH2` FOREIGN KEY (`AUCG_ID`) REFERENCES `mona_aucgame` (`AUCG_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table monauc.mona_bidhistory: ~0 rows (approximately)
+-- Dumping data for table monauc.mona_bidhistory: ~1 rows (approximately)
 /*!40000 ALTER TABLE `mona_bidhistory` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mona_bidhistory` ENABLE KEYS */;
 
@@ -74,10 +75,11 @@ CREATE TABLE IF NOT EXISTS `mona_product` (
   PRIMARY KEY (`PROD_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table monauc.mona_product: ~1 rows (approximately)
+-- Dumping data for table monauc.mona_product: ~0 rows (approximately)
 /*!40000 ALTER TABLE `mona_product` DISABLE KEYS */;
 INSERT INTO `mona_product` (`PROD_ID`, `PROD_NAME`, `PROD_OPENPRICE`, `PROD_BUYOUT`, `PROD_PIC`, `PROD_DTSTS`) VALUES
-	('BB0618PROBO', 'Probolinggo', '100000000', '300000000', NULL, '1');
+	('BB0618PROBO', 'Probolinggo', '100000000', '300000000', NULL, '1'),
+	('BB0718ADIT', 'Adityawarmana', '100000000', '300000000', NULL, '1');
 /*!40000 ALTER TABLE `mona_product` ENABLE KEYS */;
 
 -- Dumping structure for table monauc.mona_user
@@ -92,10 +94,13 @@ CREATE TABLE IF NOT EXISTS `mona_user` (
   PRIMARY KEY (`USER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table monauc.mona_user: ~1 rows (approximately)
+-- Dumping data for table monauc.mona_user: ~4 rows (approximately)
 /*!40000 ALTER TABLE `mona_user` DISABLE KEYS */;
 INSERT INTO `mona_user` (`USER_ID`, `USER_NAME`, `USER_PASS`, `USER_COMPANY`, `USER_ADDRESS`, `USER_DTSTS`) VALUES
-	('USR0001', 'Kaisha', '12345', 'Match Ad', 'Lesti 42', '1');
+	('USR-00001', 'Kaisha', '12345', 'Match Ad', 'Lesti 42A', '1'),
+	('USR-00002', 'Indra', '12345', 'KCT', 'Raya Taman', '1'),
+	('USR-00003', 'Dini', '12345', 'WPI', 'HR Muhammad', '1'),
+	('USR-00004', 'Zamroni', '12345', 'WIKLAN', 'Lesti 42B', '1');
 /*!40000 ALTER TABLE `mona_user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

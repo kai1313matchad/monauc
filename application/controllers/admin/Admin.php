@@ -22,4 +22,10 @@ class Admin extends CI_Controller
 		$data['content']='admin/user';
 		$this->load->view('admin/layout/wrapper',$data);
 	}
+
+	public function products()
+	{
+		$data['content']='admin/product';
+		$this->load->view('admin/layout/wrapper',$data);
+	}
 }

@@ -34,4 +34,5 @@
     <script src="<?php echo base_url('assets/vendors/pdfmake/build/vfs_fonts.js')?>"></script>
     
     <!-- Custom Theme Scripts -->
+    <script src="<?php echo base_url('assets/admin_js/jquery.number.js')?>"></script>
     <script src="<?php echo base_url('assets/admin_js/custom.js')?>"></script>
