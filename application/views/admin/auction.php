@@ -3,7 +3,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Manage Product</h3>
+                <h3>Manage Auction</h3>
               </div>
             </div>
 
@@ -13,7 +13,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Data Products</h2>
+                    <h2>Data Users</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -22,14 +22,13 @@
                   </div>
                   <div class="x_content">
                   	<div id="alert-del"></div>
-                    <table id="dtb-prodall" class="table table-striped table-bordered" width="100%">
+                    <table id="dtb-userall" class="table table-striped table-bordered" width="100%">
                     	<thead>
                       	<tr>
                       		<th class="col-sm-1">No</th>
-                          <th class="col-sm-2">Kode Produk</th>
                       		<th class="col-sm-2">Nama</th>
-                      		<th class="col-sm-2">Price</th>
-                      		<th class="col-sm-4">Picture</th>
+                      		<th class="col-sm-3">Perusahaan</th>
+                      		<th class="col-sm-4">Alamat</th>
                       		<th class="col-sm-1">Edit</th>
                       		<th class="col-sm-1">Hapus</th>
                       	</tr>
@@ -57,52 +56,46 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="form-product" class="form-horizontal form-label-left" enctype="multipart/form-data">
+                    <form id="form-users" class="form-horizontal form-label-left">
                     	<input type="hidden" name="form_status" value="1">
                     	<div class="col-xs-12" id="alert-div">
                     	</div>
                     	<div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Product ID
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">User ID
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="productid" required="required" class="form-control col-md-7 col-xs-12" placeholder="Product ID">
+                          <input type="text" id="userid" name="userid" readonly="readonly" class="form-control col-md-7 col-xs-12">
                           <span class="help-block"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Product Name <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Username <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="productname" required="required" class="form-control col-md-7 col-xs-12" placeholder="Product Name">
+                          <input type="text" id="username" name="username" required="required" class="form-control col-md-7 col-xs-12" placeholder="Username">
                           <span class="help-block"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Open Price <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Password
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="productop" class="form-control col-md-7 col-xs-12 curr-num" required="required" placeholder="Open Price">
+                          <input type="password" id="password" name="password" class="form-control col-md-7 col-xs-12" placeholder="Password">
                           <span class="help-block"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Buy Out <span class="required">*</span></label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Perusahaan <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input class="form-control col-md-7 col-xs-12 curr-num" type="text" name="productbo" required="required" placeholder="Buy Out Price">
+                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="comp_name" required="required" placeholder="Perusahaan">
                           <span class="help-block"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Product Price <span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Alamat <span class="required">*</span>
+                        </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input class="form-control col-md-7 col-xs-12 curr-num" type="text" name="productprice" required="required" placeholder="Buy Out Price">
-                          <span class="help-block"></span>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Product Picture <span class="required">*</span></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input class="form-control col-md-7 col-xs-12" type="file" id="productpic" name="productpic" required="required">
+                          <textarea class="form-control" name="comp_address" rows="3" required="required" placeholder="Alamat Perusahaan"></textarea>
                           <span class="help-block"></span>
                         </div>
                       </div>
@@ -129,17 +122,18 @@
     <script>
     	$(document).ready(function(){
     		tables();
+    		gen_();
     	});
     	function tables()
     	{
-    		table = $('#dtb-prodall').DataTable({
+    		table = $('#dtb-userall').DataTable({
     		"info": false,
 				"responsive": true,
         "processing": true,
         "serverSide": true,
         "order": [],
         "ajax": {
-        	"url": "<?php echo site_url('admin/product/Product_/get_productall')?>",
+        	"url": "<?php echo site_url('admin/user/User_/get_userall')?>",
           "type": "POST",
           },
       	"columnDefs": [{"className": "text-center", "targets": ['_all']}],
@@ -151,40 +145,28 @@
       }
       function save()
       {
-        var fd = new FormData();
-        var file_data = $('#productpic').prop('files')[0];
-        fd.append("file", file_data);
-        var other_data = $('#form-product').serializeArray();
-        $.each(other_data,function(key,input){fd.append(input.name,input.value);});
-      	url = "<?php echo site_url('admin/product/Product_/save_product')?>";
+      	url = "<?php echo site_url('admin/user/User_/save_user')?>";
       	$.ajax({
 					url : url,
           type: "POST",
-          cache: false,
-          contentType: false,
-          processData: false,
-          data: fd,
+          data: $('#form-users').serialize(),
           dataType: "JSON",
           success: function(data)
           {
           	if(data.status)
             {
-            	$('#alert-div').append('<div class="alert alert-success alert dismissible fade in" role="alert"><button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>Success Adding / Update Product</div>');
+            	$('#alert-div').append('<div class="alert alert-success alert dismissible fade in" role="alert"><button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>Success Adding / Update Data User</div>');
               reload_table();
               resetbtn();
             }
             else
             {
-            	$('#alert-div').append('<div class="alert alert-danger alert dismissible fade in" role="alert"><button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>Error Adding / Update Product</div>');
-              if(data.error_str_sts)
+            	$('#alert-div').append('<div class="alert alert-danger alert dismissible fade in" role="alert"><button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>Error Adding / Update User Data</div>');
+            	for (var i = 0; i < data.inputerror.length; i++) 
               {
-                $('#alert-div').append('<div class="alert alert-danger alert dismissible fade in" role="alert"><button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>'+data.error_str+'</div>');
-              }
-              for (var i = 0; i < data.inputerror.length; i++) 
-              {
-                $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
+              	$('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
                 $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]);
-              }              
+              }
             }
           },
           error: function (jqXHR, textStatus, errorThrown)
@@ -196,55 +178,71 @@
       function resetbtn()
       {
       	$('[name="form_status"]').val('1');
-      	$('#form-product')[0].reset();
+      	$('#form-users')[0].reset();
       	$('.form-group').removeClass('has-error');
         $('.help-block').empty();
+        gen_();
       }
-      function edit_prod(id)
+      function edit_user(id)
       {
-        $('#form-product')[0].reset();
       	$('[name="form_status"]').val('2');
       	$('.form-group').removeClass('has-error');
         $('.help-block').empty();
         $.ajax({
-        	url : "<?php echo site_url('admin/product/Product_/get_prodrow/')?>"+id,
+        	url : "<?php echo site_url('admin/user/User_/get_userrow/')?>"+id,
           type: "GET",
           dataType: "JSON",
           success: function(data)
           {
-          	$('[name="productid"]').val(data.PROD_ID);
-          	$('[name="productname"]').val(data.PROD_NAME);
-          	$('[name="productop"]').val(data.PROD_OPENPRICE);
-          	$('[name="productbo"]').val(data.PROD_BUYOUT);
+          	$('[name="userid"]').val(data.USER_ID);
+          	$('[name="username"]').val(data.USER_NAME);
+          	$('[name="comp_name"]').val(data.USER_COMPANY);
+          	$('[name="comp_address"]').val(data.USER_ADDRESS);
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
-          	alert('Error Get Product Data');
+          	alert('Error Get User Data');
           }
         });
       }
-      function delete_prod(id)
+      function delete_user(id)
       {
       	if(confirm('Are you sure delete this data?'))
       	{
       		$.ajax({
-	        	url : "<?php echo site_url('admin/product/Product_/del_product/')?>"+id,
+	        	url : "<?php echo site_url('admin/user/User_/del_user/')?>"+id,
 	          type: "GET",
 	          dataType: "JSON",
 	          success: function(data)
 	          {
 	          	if(data.status)
 	          	{
-	          		$('#alert-del').append('<div class="alert alert-success alert dismissible fade in" role="alert"><button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>Success Delete Product Data</div>');
+	          		$('#alert-del').append('<div class="alert alert-success alert dismissible fade in" role="alert"><button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>Success Delete User Data</div>');
               	reload_table();
 	          	}
 	          },
 	          error: function (jqXHR, textStatus, errorThrown)
 	          {
-	          	alert('Error Delete Product Data');
+	          	alert('Error Delete User Data');
 	          }
 	        });
       	}
+      }
+      function gen_()
+      {
+      	$.ajax({
+        	url : "<?php echo site_url('admin/user/User_/gen_user')?>",
+          type: "GET",
+          dataType: "JSON",
+          success: function(data)
+          {                    
+          	$('[name="userid"]').val(data.kode);
+          },
+          error: function (jqXHR, textStatus, errorThrown)
+          {
+          	alert('Error Generate Number');
+          }
+        });
       }
     </script>
   </body>

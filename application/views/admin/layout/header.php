@@ -39,7 +39,7 @@
                   <li><a><i class="fa fa-cubes"></i> Products <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="<?php echo base_url('admin/Admin/products');?>">Manage</a></li>
-                      <li><a href="index.html">Auctions</a></li>
+                      <li><a href="<?php echo base_url('admin/Admin/auctions');?>">Auctions</a></li>
                     </ul>
                   </li>
                 </ul>

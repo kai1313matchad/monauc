@@ -21,8 +21,8 @@ class Product_ extends CI_Controller
 			$row[] = $no;
 			$row[] = $dat->PROD_ID;
 			$row[] = $dat->PROD_NAME;
-			$row[] = number_format($dat->PROD_OPENPRICE);
-			$row[] = number_format($dat->PROD_BUYOUT);
+			$row[] = number_format($dat->PROD_PRICE);			
+			$row[] = '<a href="'.base_url().$dat->PROD_PIC.'" target="blank__"><img class="img-responsive" src="'.base_url().$dat->PROD_PIC.'"></a>';
 			$row[] = '<a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="edit_prod('."'".$dat->PROD_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>';
 			$row[] = '<a href="javascript:void(0)" title="Hapus Data" class="btn btn-sm btn-danger btn-responsive" onclick="delete_prod('."'".$dat->PROD_ID."'".')"><span class="glyphicon glyphicon-trash"></span> </a>';
 			$data[] = $row;
@@ -48,33 +48,77 @@ class Product_ extends CI_Controller
 		$this->_validate_product();
 		if($this->input->post('form_status') == '1')
 		{
-			$ins = array(
-				'prod_id' => $this->input->post('productid'),
-				'prod_name' => $this->input->post('productname'),
-				'prod_openprice' => $this->input->post('productop'),
-				'prod_buyout' => $this->input->post('productbo'),
-				// 'prod_pic' => $this->input->post('comp_address'),
-				'prod_dtsts' => '1'
-			);
-			$insert = $this->db->insert('mona_product',$ins);
-			$data['status']=($this->db->affected_rows())?TRUE:FALSE;
+			$this->img_config_();
+			if(!$this->upload->do_upload('file'))
+			{
+				$data['error_str'] = $this->upload->display_errors();
+				$data['error_str_sts'] = TRUE;
+				$data['status'] = FALSE;
+				echo json_encode($data);
+				exit();
+			}
+			else
+			{
+				$fileinfo_ = $this->upload->data();
+				$path = '/assets/img/product/'.$fileinfo_['file_name'];
+				$ins = array(
+					'prod_id' => $this->input->post('productid'),
+					'prod_name' => $this->input->post('productname'),
+					'prod_openprice' => $this->input->post('productop'),
+					'prod_buyout' => $this->input->post('productbo'),
+					'prod_pic' => $path,
+					'prod_dtsts' => '1'
+				);
+				$insert = $this->db->insert('mona_product',$ins);
+				$data['status']=($this->db->affected_rows())?TRUE:FALSE;
+			}			
 		}
 		if($this->input->post('form_status') == '2')
-		{			
-			$upd = array(				
-				'prod_name' => $this->input->post('productname'),
-				'prod_openprice' => $this->input->post('productop'),
-				'prod_buyout' => $this->input->post('productbo'),
-				// 'prod_pic' => $this->input->post('comp_address'),
-				'prod_dtsts' => '1'
-			);
-			$update = $this->db->update('mona_product',$upd,array('prod_id'=>$this->input->post('productid')));
-			$data['status']=($this->db->affected_rows())?TRUE:FALSE;
+		{
+			if(empty($_FILES['file']['name']))
+			{
+				$upd = array(
+					'prod_name' => $this->input->post('productname'),
+					'prod_openprice' => $this->input->post('productop'),
+					'prod_buyout' => $this->input->post('productbo'),
+					'prod_price' => $this->input->post('productprice'),
+					'prod_dtsts' => '1'
+				);
+				$update = $this->db->update('mona_product',$upd,array('prod_id'=>$this->input->post('productid')));
+				$data['status']=($this->db->affected_rows())?TRUE:FALSE;
+			}
+			else
+			{
+				$this->img_config_();
+				if(!$this->upload->do_upload('file'))
+				{
+					$data['error_str'] = $this->upload->display_errors();
+					$data['error_str_sts'] = TRUE;
+					$data['status'] = FALSE;
+					echo json_encode($data);
+					exit();
+				}
+				else
+				{
+					$fileinfo_ = $this->upload->data();
+					$path = '/assets/img/product/'.$fileinfo_['file_name'];
+					$upd = array(
+						'prod_name' => $this->input->post('productname'),
+						'prod_openprice' => $this->input->post('productop'),
+						'prod_buyout' => $this->input->post('productbo'),
+						'prod_price' => $this->input->post('productprice'),
+						'prod_pic' => $path,
+						'prod_dtsts' => '1'
+					);
+					$update = $this->db->update('mona_product',$upd,array('prod_id'=>$this->input->post('productid')));
+					$data['status']=($this->db->affected_rows())?TRUE:FALSE;
+				}
+			}			
 		}
 		echo json_encode($data);
 	}
 
-	public function del_user($id)
+	public function del_product($id)
 	{
 		$del = array(
 			'prod_dtsts' => '0'
@@ -120,6 +164,12 @@ class Product_ extends CI_Controller
 		    $data['error_string'][] = 'Nama Produk Tidak Boleh Sama';
 		    $data['status'] = FALSE;
 		  }
+		  if(empty($_FILES['file']['name']))
+		 	{
+		  	$data['inputerror'][] = 'productpic';
+		    $data['error_string'][] = 'Gambar Produk Tidak Boleh Kosong';
+		    $data['status'] = FALSE;
+		  }
 	  }
 		if($this->input->post('productop') == '')
 	 	{
@@ -133,10 +183,26 @@ class Product_ extends CI_Controller
 	    $data['error_string'][] = 'Harga Buy Out Produk Tidak Boleh Kosong';
 	    $data['status'] = FALSE;
 	  }
+	  if($this->input->post('productprice') == '')
+	 	{
+	  	$data['inputerror'][] = 'productprice';
+	    $data['error_string'][] = 'Harga Produk Tidak Boleh Kosong';
+	    $data['status'] = FALSE;
+	  }
 	  if($data['status'] === FALSE)
 	  {
 	  	echo json_encode($data);
 	    exit();
 	  }
+	}
+
+	public function img_config_()
+	{
+		$nmfile='img_'.time();
+		$config['upload_path']='./assets/img/product/';
+		$config['allowed_types']='jpg|jpeg|png';
+		$config['max_size']='2048';
+		$config['file_name']=$nmfile;
+		$this->upload->initialize($config);
 	}
 }

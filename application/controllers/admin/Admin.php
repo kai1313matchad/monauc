@@ -28,4 +28,10 @@ class Admin extends CI_Controller
 		$data['content']='admin/product';
 		$this->load->view('admin/layout/wrapper',$data);
 	}
+
+	public function auctions()
+	{
+		$data['content']='admin/auction';
+		$this->load->view('admin/layout/wrapper',$data);
+	}
 }
