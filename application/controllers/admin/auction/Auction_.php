@@ -16,7 +16,7 @@ class Auction_ extends CI_Controller
 		$no = $_POST['start'];
 		foreach ($list as $dat)
 		{
-			$sts = ($dat->AUCG_DTSTS != '0')?'<a href="javascript:void(0)" title="Status Data" class="btn btn-sm btn-success btn-responsive" onclick="chgsts_auc('."'".$dat->AUCG_ID."'".')">Aktif</a>':'<a href="javascript:void(0)" title="Status Data" class="btn btn-sm btn-info btn-responsive" onclick="chgsts_auc('."'".$dat->PROD_ID."'".')">Non-Aktif</a>';
+			$sts = ($dat->AUCG_DTSTS != '0')?'<a href="javascript:void(0)" title="Status Data" class="btn btn-sm btn-success btn-responsive" onclick="chgsts_auc('."'".$dat->AUCG_ID."'".')">Aktif</a>':'<a href="javascript:void(0)" title="Status Data" class="btn btn-sm btn-info btn-responsive" onclick="chgsts_auc('."'".$dat->AUCG_ID."'".')">Non-Aktif</a>';
 			$no++;
 			$row = array();
 			$row[] = $no;
@@ -24,8 +24,8 @@ class Auction_ extends CI_Controller
 			$row[] = $dat->PROD_ID.' - '.$dat->PROD_NAME;
 			$row[] = $dat->AUCG_DATE;
 			$row[] = 'OP : '.number_format($dat->AUCG_OPENPRICE).'<br />BO : '.number_format($dat->AUCG_BUYOUT);
-			$row[] = '<a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="edit_auc('."'".$dat->PROD_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>';
 			$row[] = $sts;
+			$row[] = '<a href="javascript:void(0)" title="Edit Data" class="btn btn-sm btn-primary btn-responsive" onclick="edit_auc('."'".$dat->AUCG_ID."'".')"><span class="glyphicon glyphicon-pencil"></span> </a>';
 			$data[] = $row;
 		}
 		$output = array(
@@ -37,9 +37,9 @@ class Auction_ extends CI_Controller
 		echo json_encode($output);
 	}
 
-	public function get_prodrow($id)
+	public function get_auctionrow($id)
 	{
-		$que = $this->db->get_where('mona_product',array('prod_id'=>$id));
+		$que = $this->db->get_where('mona_aucgame',array('aucg_id'=>$id));
 		$data = $que->row();
 		echo json_encode($data);
 	}
@@ -59,150 +59,122 @@ class Auction_ extends CI_Controller
 		echo json_encode($data);
 	}
 
-	public function save_product()
+	public function save_auction()
 	{
-		$this->_validate_product();
+		$this->_validate_auction();
 		if($this->input->post('form_status') == '1')
 		{
-			$this->img_config_();
-			if(!$this->upload->do_upload('file'))
-			{
-				$data['error_str'] = $this->upload->display_errors();
-				$data['error_str_sts'] = TRUE;
-				$data['status'] = FALSE;
-				echo json_encode($data);
-				exit();
-			}
-			else
-			{
-				$fileinfo_ = $this->upload->data();
-				$path = '/assets/img/product/'.$fileinfo_['file_name'];
-				$ins = array(
-					'prod_id' => $this->input->post('productid'),
-					'prod_name' => $this->input->post('productname'),
-					'prod_openprice' => $this->input->post('productop'),
-					'prod_buyout' => $this->input->post('productbo'),
-					'prod_pic' => $path,
-					'prod_dtsts' => '1'
-				);
-				$insert = $this->db->insert('mona_product',$ins);
-				$data['status']=($this->db->affected_rows())?TRUE:FALSE;
-			}			
+			$ins = array(
+				'aucg_id' => $this->input->post('auctionid'),
+				'prod_id' => $this->input->post('auctionprod'),
+				'aucg_date' => $this->input->post('auctiondate'),
+				'aucg_openprice' => $this->input->post('auctionop'),
+				'aucg_buyout' => $this->input->post('auctionbo'),
+				'aucg_bid' => $this->input->post('auctionbid'),
+				'aucg_lastbid' => '0',
+				'aucg_dtsts' => '0'
+			);
+			$insert = $this->db->insert('mona_aucgame',$ins);
+			$data['status']=($this->db->affected_rows())?TRUE:FALSE;			
 		}
 		if($this->input->post('form_status') == '2')
 		{
-			if(empty($_FILES['file']['name']))
-			{
-				$upd = array(
-					'prod_name' => $this->input->post('productname'),
-					'prod_openprice' => $this->input->post('productop'),
-					'prod_buyout' => $this->input->post('productbo'),
-					'prod_price' => $this->input->post('productprice'),
-					'prod_dtsts' => '1'
-				);
-				$update = $this->db->update('mona_product',$upd,array('prod_id'=>$this->input->post('productid')));
-				$data['status']=($this->db->affected_rows())?TRUE:FALSE;
-			}
-			else
-			{
-				$this->img_config_();
-				if(!$this->upload->do_upload('file'))
-				{
-					$data['error_str'] = $this->upload->display_errors();
-					$data['error_str_sts'] = TRUE;
-					$data['status'] = FALSE;
-					echo json_encode($data);
-					exit();
-				}
-				else
-				{
-					$fileinfo_ = $this->upload->data();
-					$path = '/assets/img/product/'.$fileinfo_['file_name'];
-					$upd = array(
-						'prod_name' => $this->input->post('productname'),
-						'prod_openprice' => $this->input->post('productop'),
-						'prod_buyout' => $this->input->post('productbo'),
-						'prod_price' => $this->input->post('productprice'),
-						'prod_pic' => $path,
-						'prod_dtsts' => '1'
-					);
-					$update = $this->db->update('mona_product',$upd,array('prod_id'=>$this->input->post('productid')));
-					$data['status']=($this->db->affected_rows())?TRUE:FALSE;
-				}
-			}			
+			$upd = array(
+				'prod_id' => $this->input->post('auctionprod'),
+				'aucg_date' => $this->input->post('auctiondate'),
+				'aucg_openprice' => $this->input->post('auctionop'),
+				'aucg_buyout' => $this->input->post('auctionbo'),
+				'aucg_bid' => $this->input->post('auctionbid')
+			);
+			$update = $this->db->update('mona_aucgame',$upd,array('aucg_id'=>$this->input->post('auctionid')));
+			$data['status']=($this->db->affected_rows())?TRUE:FALSE;
 		}
 		echo json_encode($data);
 	}
 
-	public function del_product($id)
+	public function chgsts_auction($id)
 	{
-		$del = array(
-			'prod_dtsts' => '0'
-		);
-		$update = $this->db->update('mona_product',$del,array('prod_id'=>$id));
-		$data['status']=($this->db->affected_rows())?TRUE:FALSE;
+		$chkque = $this->db->get_where('mona_aucgame',array('aucg_dtsts'=>'1'));
+		$chkres = $chkque->num_rows();
+		$chque = $this->db->get_where('mona_aucgame',array('aucg_id'=>$id));
+		$chres = $chque->row();
+		if($chkres > 0 && $chres->AUCG_DTSTS != '1')
+		{
+			$data['status'] = FALSE;
+		}
+		else
+		{
+			if($chres->AUCG_DTSTS != '0')
+			{
+				$upd = array(
+					'aucg_dtsts' => '0'
+				);
+				$update = $this->db->update('mona_aucgame',$upd,array('aucg_id'=>$id));
+				$data['status']=($this->db->affected_rows())?TRUE:FALSE;
+			}
+			else
+			{
+				$upd = array(
+					'aucg_dtsts' => '1'
+				);
+				$update = $this->db->update('mona_aucgame',$upd,array('aucg_id'=>$id));
+				$data['status']=($this->db->affected_rows())?TRUE:FALSE;
+			}
+		}
 		echo json_encode($data);
 	}
 
-	public function _validate_product()
+	public function _validate_auction()
 	{
 		$data = array();
 	  $data['error_string'] = array();
 	  $data['inputerror'] = array();
 	  $data['status'] = TRUE;
 	
-	  if($this->input->post('productid') == '')
+	  if($this->input->post('auctionid') == '')
 	  {
-	  	$data['inputerror'][] = 'productid';
-	    $data['error_string'][] = 'Kode Produk Tidak Boleh Kosong';
+	  	$data['inputerror'][] = 'auctionid';
+	    $data['error_string'][] = 'Kode Lelang Tidak Boleh Kosong';
 	    $data['status'] = FALSE;
 	  }
-
-	  if($this->input->post('productname') == '')
+	  if($this->input->post('auctionprod') == '')
 	  {
-	  	$data['inputerror'][] = 'productname';
-	    $data['error_string'][] = 'Nama Produk Tidak Boleh Kosong';
+	  	$data['inputerror'][] = 'auctionprod';
+	    $data['error_string'][] = 'Produk Tidak Boleh Kosong';
+	    $data['status'] = FALSE;
+	  }
+	  if($this->input->post('auctiondate') == '')
+	 	{
+	  	$data['inputerror'][] = 'auctiondate';
+	    $data['error_string'][] = 'Tanggal Tidak Boleh Kosong';
 	    $data['status'] = FALSE;
 	  }
 	  if($this->input->post('form_status') == '1')
 		{
-	  	$this->form_validation->set_rules('productid', 'Productid', 'is_unique[mona_product.PROD_ID]');
+	  	$this->form_validation->set_rules('auctionid', 'Auctionid', 'is_unique[mona_aucgame.AUCG_ID]');
 	    if($this->form_validation->run() == FALSE)
 		  {
-		  	$data['inputerror'][] = 'productid';
-		    $data['error_string'][] = 'Kode Produk Sudah Terpakai';
-		    $data['status'] = FALSE;
-		  }
-	  	$this->form_validation->set_rules('productname', 'Productname', 'is_unique[mona_product.PROD_NAME]');
-	    if($this->form_validation->run() == FALSE)
-		  {
-		  	$data['inputerror'][] = 'productname';
-		    $data['error_string'][] = 'Nama Produk Tidak Boleh Sama';
-		    $data['status'] = FALSE;
-		  }
-		  if(empty($_FILES['file']['name']))
-		 	{
-		  	$data['inputerror'][] = 'productpic';
-		    $data['error_string'][] = 'Gambar Produk Tidak Boleh Kosong';
+		  	$data['inputerror'][] = 'auctionid';
+		    $data['error_string'][] = 'Kode Lelang Sudah Terpakai';
 		    $data['status'] = FALSE;
 		  }
 	  }
-		if($this->input->post('productop') == '')
+		if($this->input->post('auctionop') == '')
 	 	{
-	  	$data['inputerror'][] = 'productop';
-	    $data['error_string'][] = 'Harga Buka Produk Tidak Boleh Kosong';
+	  	$data['inputerror'][] = 'auctionop';
+	    $data['error_string'][] = 'Open Price Tidak Boleh Kosong';
 	    $data['status'] = FALSE;
 	  }
-	  if($this->input->post('productbo') == '')
+	  if($this->input->post('auctionbo') == '')
 	 	{
-	  	$data['inputerror'][] = 'productbo';
-	    $data['error_string'][] = 'Harga Buy Out Produk Tidak Boleh Kosong';
+	  	$data['inputerror'][] = 'auctionbo';
+	    $data['error_string'][] = 'Buy Out Tidak Boleh Kosong';
 	    $data['status'] = FALSE;
 	  }
-	  if($this->input->post('productprice') == '')
+	  if($this->input->post('auctionbid') == '')
 	 	{
-	  	$data['inputerror'][] = 'productprice';
-	    $data['error_string'][] = 'Harga Produk Tidak Boleh Kosong';
+	  	$data['inputerror'][] = 'auctionbid';
+	    $data['error_string'][] = 'Bid Tidak Boleh Kosong';
 	    $data['status'] = FALSE;
 	  }
 	  if($data['status'] === FALSE)

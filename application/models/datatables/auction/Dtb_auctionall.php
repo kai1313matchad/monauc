@@ -3,8 +3,8 @@
 	class Dtb_auctionall extends CI_Model 
 	{
 		var $table = 'mona_aucgame a';
-		var $column_order = array(null,'aucg_id','prod_name','aucg_date','aucg_openprice','aucg_buyout','aucg_bid','aucg_lastbid');
-		var $column_search = array('aucg_id','prod_name','aucg_date','aucg_openprice','aucg_buyout','aucg_bid','aucg_lastbid');
+		var $column_order = array(null,'aucg_id','prod_name','aucg_date','aucg_openprice','aucg_buyout','aucg_bid','aucg_lastbid','aucg_dtsts');
+		var $column_search = array('aucg_id','prod_name','aucg_date','aucg_openprice','aucg_buyout','aucg_bid','aucg_lastbid','aucg_dtsts');
 		var $order = array('aucg_id' => 'asc');
 		public function __construct()
 		{

@@ -30,8 +30,8 @@
                       		<th>Produk</th>
                       		<th>Tanggal</th>
                           <th>Open Price - Buyout</th>
+                      		<th>Status</th>
                       		<th>Edit</th>
-                      		<th>Hapus</th>
                       	</tr>
                       </thead>
                       <tbody>
@@ -94,14 +94,21 @@
                       <div class="form-group">
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Open Price <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input class="form-control col-md-7 col-xs-12" type="text" name="auctionop" required="required" placeholder="Open Price">
+                          <input class="form-control col-md-7 col-xs-12 curr-num" type="text" name="auctionop" required="required" placeholder="Open Price">
                           <span class="help-block"></span>
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Buy Out <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input class="form-control col-md-7 col-xs-12" type="text" name="auctionbo" required="required" placeholder="Buy Out">
+                          <input class="form-control col-md-7 col-xs-12 curr-num" type="text" name="auctionbo" required="required" placeholder="Buy Out">
+                          <span class="help-block"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Bid <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input class="form-control col-md-7 col-xs-12 curr-num" type="text" name="auctionbid" required="required" placeholder="Bid">
                           <span class="help-block"></span>
                         </div>
                       </div>
@@ -152,23 +159,23 @@
       }
       function save()
       {
-      	url = "<?php echo site_url('admin/user/User_/save_user')?>";
+      	url = "<?php echo site_url('admin/auction/Auction_/save_auction')?>";
       	$.ajax({
 					url : url,
           type: "POST",
-          data: $('#form-users').serialize(),
+          data: $('#form-auctions').serialize(),
           dataType: "JSON",
           success: function(data)
           {
           	if(data.status)
             {
-            	$('#alert-div').append('<div class="alert alert-success alert dismissible fade in" role="alert"><button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>Success Adding / Update Data User</div>');
+            	$('#alert-div').append('<div class="alert alert-success alert dismissible fade in" role="alert"><button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>Success Adding / Update Auction User</div>');
               reload_table();
               resetbtn();
             }
             else
             {
-            	$('#alert-div').append('<div class="alert alert-danger alert dismissible fade in" role="alert"><button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>Error Adding / Update User Data</div>');
+            	$('#alert-div').append('<div class="alert alert-danger alert dismissible fade in" role="alert"><button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>Error Adding / Update Auction Data</div>');
             	for (var i = 0; i < data.inputerror.length; i++) 
               {
               	$('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error');
@@ -191,21 +198,23 @@
         gen_();
         drop_();
       }
-      function edit_user(id)
+      function edit_auc(id)
       {
       	$('[name="form_status"]').val('2');
       	$('.form-group').removeClass('has-error');
         $('.help-block').empty();
         $.ajax({
-        	url : "<?php echo site_url('admin/user/User_/get_userrow/')?>"+id,
+        	url : "<?php echo site_url('admin/auction/Auction_/get_auctionrow/')?>"+id,
           type: "GET",
           dataType: "JSON",
           success: function(data)
           {
-          	$('[name="userid"]').val(data.USER_ID);
-          	$('[name="username"]').val(data.USER_NAME);
-          	$('[name="comp_name"]').val(data.USER_COMPANY);
-          	$('[name="comp_address"]').val(data.USER_ADDRESS);
+          	$('[name="auctionid"]').val(data.AUCG_ID);
+          	$('[name="auctionop"]').val(data.AUCG_OPENPRICE);
+          	$('[name="auctionbo"]').val(data.AUCG_BUYOUT);
+            $('[name="auctionbid"]').val(data.AUCG_BID);
+            $('select#auctionprod').val(data.PROD_ID);
+            $('#auctionprod').selectpicker('refresh');
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
@@ -213,21 +222,26 @@
           }
         });
       }
-      function delete_user(id)
+      function chgsts_auc(id)
       {
       	if(confirm('Are you sure delete this data?'))
       	{
       		$.ajax({
-	        	url : "<?php echo site_url('admin/user/User_/del_user/')?>"+id,
+	        	url : "<?php echo site_url('admin/auction/Auction_/chgsts_auction/')?>"+id,
 	          type: "GET",
 	          dataType: "JSON",
 	          success: function(data)
 	          {
 	          	if(data.status)
 	          	{
-	          		$('#alert-del').append('<div class="alert alert-success alert dismissible fade in" role="alert"><button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>Success Delete User Data</div>');
+	          		$('#alert-del').append('<div class="alert alert-success alert dismissible fade in" role="alert"><button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>Sukses Update Data Lelang</div>');
               	reload_table();
 	          	}
+              else
+              {
+                $('#alert-del').append('<div class="alert alert-danger alert dismissible fade in" role="alert"><button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>Masih Ada Lelang Aktif</div>');
+                reload_table();
+              }
 	          },
 	          error: function (jqXHR, textStatus, errorThrown)
 	          {

@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               10.1.19-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win32
--- HeidiSQL Version:             9.4.0.5125
+-- HeidiSQL Version:             9.5.0.5196
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -30,7 +30,8 @@ CREATE TABLE IF NOT EXISTS `mona_aucgame` (
 -- Dumping data for table monauc.mona_aucgame: ~0 rows (approximately)
 /*!40000 ALTER TABLE `mona_aucgame` DISABLE KEYS */;
 INSERT INTO `mona_aucgame` (`AUCG_ID`, `PROD_ID`, `AUCG_DATE`, `AUCG_OPENPRICE`, `AUCG_BUYOUT`, `AUCG_BID`, `AUCG_LASTBID`, `AUCG_DTSTS`) VALUES
-	('AUC-00001', 'BB0618PROBO', '2018-07-16', 100000000, 200000000, 10000000, 100000000, '1');
+	('AUC-00001', 'BB0618PROBO', '2018-07-16', 100000000, 200000000, 10000000, 100000000, '0'),
+	('AUC-00002', 'BB0618PROBO', '2018-07-16', 150000000, 350000000, 10000000, 0, '1');
 /*!40000 ALTER TABLE `mona_aucgame` ENABLE KEYS */;
 
 -- Dumping structure for table monauc.mona_bidhistory
