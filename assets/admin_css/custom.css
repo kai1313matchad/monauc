@@ -4253,3 +4253,12 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
     background-color: #ffff !important;
 }
 /** /bootstrap-datetimepicker **/
+
+/** custom added **/
+.img-adm-product{
+  max-width: 72.5px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+/** /custom added **/

@@ -27,9 +27,9 @@
                       	<tr>
                       		<th class="col-sm-1">No</th>
                           <th class="col-sm-2">Kode Produk</th>
-                      		<th class="col-sm-2">Nama</th>
+                      		<th class="col-sm-3">Nama</th>
                       		<th class="col-sm-2">Price</th>
-                      		<th class="col-sm-4">Picture</th>
+                      		<th class="col-sm-3">Picture</th>
                       		<th class="col-sm-1">Edit</th>
                       		<th class="col-sm-1">Hapus</th>
                       	</tr>

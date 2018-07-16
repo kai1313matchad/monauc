@@ -5111,4 +5111,6 @@ if (typeof NProgress != 'undefined') {
 
 $('.curr-num').number(true);	
 	
-
+$('.dtp').datetimepicker({
+  format: 'YYYY-MM-DD'
+ });

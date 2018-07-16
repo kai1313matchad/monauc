@@ -13,7 +13,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Data Users</h2>
+                    <h2>Data Auctions</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -22,15 +22,16 @@
                   </div>
                   <div class="x_content">
                   	<div id="alert-del"></div>
-                    <table id="dtb-userall" class="table table-striped table-bordered" width="100%">
+                    <table id="dtb-auctionall" class="table table-striped table-bordered" width="100%">
                     	<thead>
                       	<tr>
-                      		<th class="col-sm-1">No</th>
-                      		<th class="col-sm-2">Nama</th>
-                      		<th class="col-sm-3">Perusahaan</th>
-                      		<th class="col-sm-4">Alamat</th>
-                      		<th class="col-sm-1">Edit</th>
-                      		<th class="col-sm-1">Hapus</th>
+                      		<th>No</th>
+                      		<th>Kode</th>
+                      		<th>Produk</th>
+                      		<th>Tanggal</th>
+                          <th>Open Price - Buyout</th>
+                      		<th>Edit</th>
+                      		<th>Hapus</th>
                       	</tr>
                       </thead>
                       <tbody>
@@ -56,46 +57,51 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="form-users" class="form-horizontal form-label-left">
+                    <form id="form-auctions" class="form-horizontal form-label-left">
                     	<input type="hidden" name="form_status" value="1">
                     	<div class="col-xs-12" id="alert-div">
                     	</div>
                     	<div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">User ID
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Auction ID
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="userid" name="userid" readonly="readonly" class="form-control col-md-7 col-xs-12">
+                          <input type="text" name="auctionid" readonly="readonly" class="form-control col-md-7 col-xs-12">
                           <span class="help-block"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Username <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Produk Lelang <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="username" name="username" required="required" class="form-control col-md-7 col-xs-12" placeholder="Username">
+                          <select id="auctionprod" name="auctionprod" class="form-control text-center" data-live-search="true" data-dropup-auto="false" required>
+                          </select>
                           <span class="help-block"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Password
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Tanggal
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="password" id="password" name="password" class="form-control col-md-7 col-xs-12" placeholder="Password">
+                          <div class='input-group date dtp'>
+                            <span class="input-group-addon">
+                              <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                            <input id="auctiondate" type='text' class="form-control input-group-addon" name="auctiondate" value="<?= date('Y-m-d')?>" />
+                          </div>
                           <span class="help-block"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Perusahaan <span class="required">*</span></label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Open Price <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="comp_name" required="required" placeholder="Perusahaan">
+                          <input class="form-control col-md-7 col-xs-12" type="text" name="auctionop" required="required" placeholder="Open Price">
                           <span class="help-block"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Alamat <span class="required">*</span>
-                        </label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Buy Out <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <textarea class="form-control" name="comp_address" rows="3" required="required" placeholder="Alamat Perusahaan"></textarea>
+                          <input class="form-control col-md-7 col-xs-12" type="text" name="auctionbo" required="required" placeholder="Buy Out">
                           <span class="help-block"></span>
                         </div>
                       </div>
@@ -123,17 +129,18 @@
     	$(document).ready(function(){
     		tables();
     		gen_();
+        drop_();
     	});
     	function tables()
     	{
-    		table = $('#dtb-userall').DataTable({
+    		table = $('#dtb-auctionall').DataTable({
     		"info": false,
 				"responsive": true,
         "processing": true,
         "serverSide": true,
         "order": [],
         "ajax": {
-        	"url": "<?php echo site_url('admin/user/User_/get_userall')?>",
+        	"url": "<?php echo site_url('admin/auction/Auction_/get_auctionall')?>",
           "type": "POST",
           },
       	"columnDefs": [{"className": "text-center", "targets": ['_all']}],
@@ -178,10 +185,11 @@
       function resetbtn()
       {
       	$('[name="form_status"]').val('1');
-      	$('#form-users')[0].reset();
+      	$('#form-auctions')[0].reset();
       	$('.form-group').removeClass('has-error');
         $('.help-block').empty();
         gen_();
+        drop_();
       }
       function edit_user(id)
       {
@@ -231,16 +239,42 @@
       function gen_()
       {
       	$.ajax({
-        	url : "<?php echo site_url('admin/user/User_/gen_user')?>",
+        	url : "<?php echo site_url('admin/auction/Auction_/gen_auction')?>",
           type: "GET",
           dataType: "JSON",
           success: function(data)
           {                    
-          	$('[name="userid"]').val(data.kode);
+          	$('[name="auctionid"]').val(data.kode);
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
           	alert('Error Generate Number');
+          }
+        });
+      }
+      function drop_()
+      {
+        $.ajax({
+          url : "<?php echo site_url('admin/auction/Auction_/get_proddrop')?>",
+          type: "GET",
+          dataType: "JSON",
+          success: function(data)
+          {   
+            var select = document.getElementById('auctionprod');
+            var option;
+            for (var i = 0; i < data.length; i++)
+            {
+              option = document.createElement('option');
+              option.value = data[i]["PROD_ID"]
+              option.text = data[i]["PROD_ID"]+' - '+data[i]["PROD_NAME"];
+              select.add(option);
+            }
+            $('#auctionprod').selectpicker({});
+            $('#auctionprod').selectpicker('refresh');
+          },
+          error: function (jqXHR, textStatus, errorThrown)
+          {
+            alert('Error get data from ajax');
           }
         });
       }

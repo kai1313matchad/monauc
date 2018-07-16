@@ -14,8 +14,11 @@
     <!-- bootstrap-daterangepicker -->
     <script src="<?php echo base_url('assets/moment/min/moment.min.js')?>"></script>
     <script src="<?php echo base_url('assets/vendors/bootstrap-daterangepicker/daterangepicker.js')?>"></script>
+    <script src="<?php echo base_url('assets/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')?>"></script>
     <!-- iCheck -->
     <script src="<?php echo base_url('assets/vendors/iCheck/icheck.min.js')?>"></script>
+    <!-- Select Bst -->
+    <script src="<?php echo base_url('assets/vendors/bootstrap-select/js/bootstrap-select.min.js') ?>"></script>
     <!-- Datatables -->
     <script src="<?php echo base_url('assets/vendors/datatables.net/js/jquery.dataTables.min.js')?>"></script>
     <script src="<?php echo base_url('assets/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')?>"></script>
