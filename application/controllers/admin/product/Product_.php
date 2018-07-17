@@ -6,7 +6,7 @@ class Product_ extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('CRUD/M_Gen','gen');
-		$this->load->model('datatables/product/dtb_productall','prodall');
+		$this->load->model('datatables/product/Dtb_productall','prodall');
 	}
 
 	public function get_productall()
@@ -64,8 +64,7 @@ class Product_ extends CI_Controller
 				$ins = array(
 					'prod_id' => $this->input->post('productid'),
 					'prod_name' => $this->input->post('productname'),
-					'prod_openprice' => $this->input->post('productop'),
-					'prod_buyout' => $this->input->post('productbo'),
+					'prod_price' => $this->input->post('productprice'),
 					'prod_pic' => $path,
 					'prod_dtsts' => '1'
 				);
@@ -79,8 +78,6 @@ class Product_ extends CI_Controller
 			{
 				$upd = array(
 					'prod_name' => $this->input->post('productname'),
-					'prod_openprice' => $this->input->post('productop'),
-					'prod_buyout' => $this->input->post('productbo'),
 					'prod_price' => $this->input->post('productprice'),
 					'prod_dtsts' => '1'
 				);
@@ -104,8 +101,6 @@ class Product_ extends CI_Controller
 					$path = '/assets/img/product/'.$fileinfo_['file_name'];
 					$upd = array(
 						'prod_name' => $this->input->post('productname'),
-						'prod_openprice' => $this->input->post('productop'),
-						'prod_buyout' => $this->input->post('productbo'),
 						'prod_price' => $this->input->post('productprice'),
 						'prod_pic' => $path,
 						'prod_dtsts' => '1'
@@ -170,18 +165,6 @@ class Product_ extends CI_Controller
 		    $data['error_string'][] = 'Gambar Produk Tidak Boleh Kosong';
 		    $data['status'] = FALSE;
 		  }
-	  }
-		if($this->input->post('productop') == '')
-	 	{
-	  	$data['inputerror'][] = 'productop';
-	    $data['error_string'][] = 'Harga Buka Produk Tidak Boleh Kosong';
-	    $data['status'] = FALSE;
-	  }
-	  if($this->input->post('productbo') == '')
-	 	{
-	  	$data['inputerror'][] = 'productbo';
-	    $data['error_string'][] = 'Harga Buy Out Produk Tidak Boleh Kosong';
-	    $data['status'] = FALSE;
 	  }
 	  if($this->input->post('productprice') == '')
 	 	{

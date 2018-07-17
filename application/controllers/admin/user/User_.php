@@ -6,7 +6,7 @@ class User_ extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('CRUD/M_Gen','gen');
-		$this->load->model('datatables/user/dtb_userall','userall');
+		$this->load->model('datatables/user/Dtb_userall','userall');
 	}
 
 	public function get_userall()

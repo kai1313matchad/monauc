@@ -6,7 +6,7 @@ class Auction_ extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('CRUD/M_Gen','gen');
-		$this->load->model('datatables/auction/dtb_auctionall','auctall');
+		$this->load->model('datatables/auction/Dtb_auctionall','auctall');
 	}
 
 	public function get_auctionall()
@@ -44,6 +44,13 @@ class Auction_ extends CI_Controller
 		echo json_encode($data);
 	}
 
+	public function get_auctionmember($id)
+	{
+		$que = $this->db->get_where('mona_aucmember',array('aucg_id'=>$id));
+		$data = $que->result();
+		echo json_encode($data);
+	}
+
 	public function gen_auction()
 	{
 		$res = $this->gen->gen_number('aucg_id','mona_aucgame','AUC');
@@ -55,6 +62,13 @@ class Auction_ extends CI_Controller
 	public function get_proddrop()
 	{
 		$que = $this->db->get_where('mona_product',array('prod_dtsts'=>'1'));
+		$data = $que->result();
+		echo json_encode($data);
+	}
+
+	public function get_userdrop()
+	{
+		$que = $this->db->get_where('mona_user',array('user_dtsts'=>'1'));
 		$data = $que->result();
 		echo json_encode($data);
 	}
@@ -74,8 +88,19 @@ class Auction_ extends CI_Controller
 				'aucg_lastbid' => '0',
 				'aucg_dtsts' => '0'
 			);
-			$insert = $this->db->insert('mona_aucgame',$ins);
-			$data['status']=($this->db->affected_rows())?TRUE:FALSE;			
+			$insert = $this->db->insert('mona_aucgame',$ins);			
+			$data['status']=($this->db->affected_rows())?TRUE:FALSE;
+			$id = $this->input->post('auctionid');
+			$member = $this->input->post('auctionmember[]');
+			foreach ($member as $mbr)
+			{
+				$insmbr = array(
+					'user_id' => $mbr,
+					'aucg_id' => $id
+				);
+				$insertmbr = $this->db->insert('mona_aucmember',$insmbr);
+				$data['status']=($this->db->affected_rows())?TRUE:FALSE;
+			}
 		}
 		if($this->input->post('form_status') == '2')
 		{
@@ -88,6 +113,18 @@ class Auction_ extends CI_Controller
 			);
 			$update = $this->db->update('mona_aucgame',$upd,array('aucg_id'=>$this->input->post('auctionid')));
 			$data['status']=($this->db->affected_rows())?TRUE:FALSE;
+			$id = $this->input->post('auctionid');
+			$delmember = $this->db->delete('mona_aucmember',array('aucg_id'=>$id));
+			$member = $this->input->post('auctionmember[]');
+			foreach ($member as $mbr)
+			{
+				$insmbr = array(
+					'user_id' => $mbr,
+					'aucg_id' => $id
+				);
+				$insertmbr = $this->db->insert('mona_aucmember',$insmbr);
+				$data['status']=($this->db->affected_rows())?TRUE:FALSE;
+			}
 		}
 		echo json_encode($data);
 	}

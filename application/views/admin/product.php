@@ -78,24 +78,9 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Open Price <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="productop" class="form-control col-md-7 col-xs-12 curr-num" required="required" placeholder="Open Price">
-                          <span class="help-block"></span>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Buy Out <span class="required">*</span></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input class="form-control col-md-7 col-xs-12 curr-num" type="text" name="productbo" required="required" placeholder="Buy Out Price">
-                          <span class="help-block"></span>
-                        </div>
-                      </div>
-                      <div class="form-group">
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Product Price <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input class="form-control col-md-7 col-xs-12 curr-num" type="text" name="productprice" required="required" placeholder="Buy Out Price">
+                          <input class="form-control col-md-7 col-xs-12 curr-num" type="text" name="productprice" required="required" placeholder="Price">
                           <span class="help-block"></span>
                         </div>
                       </div>
@@ -214,8 +199,7 @@
           {
           	$('[name="productid"]').val(data.PROD_ID);
           	$('[name="productname"]').val(data.PROD_NAME);
-          	$('[name="productop"]').val(data.PROD_OPENPRICE);
-          	$('[name="productbo"]').val(data.PROD_BUYOUT);
+          	$('[name="productprice"]').val(data.PROD_PRICE);
           },
           error: function (jqXHR, textStatus, errorThrown)
           {

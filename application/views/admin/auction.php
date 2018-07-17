@@ -48,7 +48,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Add/Edit User</h2>
+                    <h2>Add/Edit Auction</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -74,6 +74,15 @@
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <select id="auctionprod" name="auctionprod" class="form-control text-center" data-live-search="true" data-dropup-auto="false" required>
+                          </select>
+                          <span class="help-block"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Peserta <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select id="auctionmember" name="auctionmember[]" class="form-control text-center" multiple required>
                           </select>
                           <span class="help-block"></span>
                         </div>
@@ -137,6 +146,7 @@
     		tables();
     		gen_();
         drop_();
+        dropms_();
     	});
     	function tables()
     	{
@@ -215,6 +225,7 @@
             $('[name="auctionbid"]').val(data.AUCG_BID);
             $('select#auctionprod').val(data.PROD_ID);
             $('#auctionprod').selectpicker('refresh');
+            pickmember_(data.AUCG_ID);
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
@@ -224,7 +235,7 @@
       }
       function chgsts_auc(id)
       {
-      	if(confirm('Are you sure delete this data?'))
+      	if(confirm('anda yakin untuk mengganti status lelang?'))
       	{
       		$.ajax({
 	        	url : "<?php echo site_url('admin/auction/Auction_/chgsts_auction/')?>"+id,
@@ -249,6 +260,26 @@
 	          }
 	        });
       	}
+      }
+      function pickmember_(id)
+      {
+        $.ajax({
+          url : "<?php echo site_url('admin/auction/Auction_/get_auctionmember/')?>"+id,
+          type: "GET",
+          dataType: "JSON",
+          success: function(data)
+          {
+            $('#auctionmember option:selected').prop('selected', false);
+            for (var i = 0; i < data.length; i++)
+            {
+              $('#auctionmember option[value="' + data[i]["USER_ID"] + '"]').prop('selected',true);
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown)
+          {
+            alert('Error get data from ajax');
+          }
+        });
       }
       function gen_()
       {
@@ -288,8 +319,50 @@
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
-            alert('Error get data from ajax');
+            alert('Error get product data');
           }
+        });
+      }
+      function dropms_()
+      {
+        $.ajax({
+          url : "<?php echo site_url('admin/auction/Auction_/get_userdrop')?>",
+          type: "GET",
+          dataType: "JSON",
+          success: function(data)
+          {   
+            var select = document.getElementById('auctionmember');
+            var option;
+            for (var i = 0; i < data.length; i++)
+            {
+              option = document.createElement('option');
+              option.value = data[i]["USER_ID"]
+              option.text = data[i]["USER_NAME"];
+              select.add(option);
+            }
+            multi_();
+          },
+          error: function (jqXHR, textStatus, errorThrown)
+          {
+            alert('Error get member data');
+          }
+        });
+      }
+      function multi_()
+      {
+        $('#auctionmember option').mousedown(function(e) 
+        {
+          e.preventDefault();
+          var originalScrollTop = $(this).parent().scrollTop();
+          console.log(originalScrollTop);
+          $(this).prop('selected', $(this).prop('selected') ? false : true);
+          var self = this;
+          $(this).parent().focus();
+          setTimeout(function() 
+          {
+            $(self).parent().scrollTop(originalScrollTop);
+          }, 0);
+          return false;
         });
       }
     </script>

@@ -3,8 +3,8 @@
 	class Dtb_productall extends CI_Model 
 	{
 		var $table = 'mona_product';
-		var $column_order = array(null,'prod_id','prod_name','prod_openprice','prod_buyout');
-		var $column_search = array('prod_id','prod_name','prod_openprice','prod_buyout');
+		var $column_order = array(null,'prod_id','prod_name','prod_price');
+		var $column_search = array('prod_id','prod_name','prod_price');
 		var $order = array('prod_id' => 'asc');
 		public function __construct()
 		{

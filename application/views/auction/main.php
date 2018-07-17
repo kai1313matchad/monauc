@@ -38,7 +38,7 @@
             </div>
             <div class="card-body">
               <div>
-                <img class="img-responsive img-thumbnail" src="<?php echo base_url()?>assets/img/test/testprod.jpeg">
+                <img class="img-responsive img-thumbnail" id="auctionpic" src="">
                 <img name="bidsold" class="img-responsive img-thumbnail" src="<?php echo base_url()?>assets/img/test/sold.png">
               </div>
               <h1 name="bidprice" class="card-title pricing-card-title header-color">Rp150.000.000 <small class="text-muted">/ year</small></h1>
@@ -51,7 +51,7 @@
               <form id="form_bid">
                 <input type="hidden" name="auc_id" value="">
                 <input type="hidden" name="auc_bidnom" value="">
-                <input type="hidden" name="auc_bid" value="10000000">
+                <input type="hidden" name="auc_bid" value="">
                 <input type="hidden" name="user_id" value="<?= $this->session->userdata('user_id');?>">
               </form>
               <button onclick="bidbtn()" name="bidbtn" type="button" class="btn btn-lg btn-block btn-primary">Bid</button>
@@ -82,9 +82,6 @@
       })
       function bidbtn()
       {
-        // $('[name="bidbtn"]').prop('disabled',true);
-        // $('[name="bidprice"]').text('');
-        // $('[name="bidprice"]').append('Rp160.000.000 <small class="text-muted">/ year</small>');
         $.ajax({
           url : "<?php echo site_url('auction/Auction/aucbid')?>",
           type: "POST",
@@ -104,12 +101,6 @@
       }
       function bidsoldbtn()
       {
-        // $('[name="bidsold"]').css({'display':'block'});
-        // $('[name="bidsold"]').addClass('sold');
-        // $('[name="bidbtn"]').prop('disabled',true);
-        // $('[name="bidsoldbtn"]').prop('disabled',true);
-        // $('[name="bidprice"]').text('');
-        // $('[name="bidprice"]').append('Rp300.000.000 <small class="text-muted">/ year</small>');
         $.ajax({
           url : "<?php echo site_url('auction/Auction/aucbuyout')?>",
           type: "POST",
@@ -120,7 +111,7 @@
             alert(data.msg);
             aucdata();
             checkbid();
-            location.reload(false);
+            // location.reload(false);
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
@@ -138,10 +129,16 @@
           {
             $('[name="auc_title"]').text('MATCHAD AUCTION - '+data.PROD_ID);
             $('[name="auc_id"]').val(data.AUCG_ID);
-            $('[name="auc_bidnom"]').val(data.LAST_BID);
-            var out = parseFloat((data.LAST_BID).replace(/,/g, "")).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            var lbid = (data.AUCG_LASTBID == '0')?data.AUCG_OPENPRICE:data.AUCG_LASTBID;
+            $('[name="auc_bidnom"]').val(lbid);
+            var out = parseFloat((lbid).replace(/,/g, "")).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            var bo = parseFloat((data.AUCG_BUYOUT).replace(/,/g, "")).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             $('[name="bidprice"]').text('');
             $('[name="bidprice"]').append('Rp'+out+' <small class="text-muted">/ year</small>');
+            $('[name="bidsoldbtn"]').text('Buyout Rp'+bo);
+            $('[name="auc_bid"]').val(data.AUCG_BID);
+            var newSrc = "<?php echo base_url()?>"+data.PROD_PIC;
+            $('#auctionpic').attr('src', newSrc);
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
@@ -171,7 +168,7 @@
               $('[name="bidsold"]').addClass('sold');
               $('[name="bidbtn"]').prop('disabled',true);
               $('[name="bidsoldbtn"]').prop('disabled',true);
-              var out = parseFloat((data.LAST_BID).replace(/,/g, "")).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+              var out = parseFloat((data.BIDH_NOM).replace(/,/g, "")).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
               $('[name="bidprice"]').text('');
               $('[name="bidprice"]').append('Rp'+out+' <small class="text-muted">/ year</small>');
             }
