@@ -63,7 +63,7 @@ class Auction extends CI_Controller
 		}
 		else
 		{
-			$data['msg'] = 'Anda Tidak Bisa Melakukan Bid';
+			$data['msg'] = 'Anda Tidak Bisa Melakukan Bid. Hubungi : 0813 3100 3778';
 			$data['status'] = FALSE;
 		}
 		echo json_encode($data);
