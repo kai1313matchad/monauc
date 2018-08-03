@@ -164,13 +164,16 @@
             }
             else
             {
-              $('[name="bidsold"]').css({'display':'block'});
-              $('[name="bidsold"]').addClass('sold');
-              $('[name="bidbtn"]').prop('disabled',true);
-              $('[name="bidsoldbtn"]').prop('disabled',true);
-              var out = parseFloat((data.BIDH_NOM).replace(/,/g, "")).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-              $('[name="bidprice"]').text('');
-              $('[name="bidprice"]').append('Rp'+out+' <small class="text-muted">/ year</small>');
+              if(data.BIDH_STS == '1' && data.USER_ID == $('[name="user_id"]').val() && data.AUCG_ID == $('[name="auc_id"]').val())
+              {
+                $('[name="bidsold"]').css({'display':'block'});
+                $('[name="bidsold"]').addClass('sold');
+                $('[name="bidbtn"]').prop('disabled',true);
+                $('[name="bidsoldbtn"]').prop('disabled',true);
+                var out = parseFloat((data.BIDH_NOM).replace(/,/g, "")).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                $('[name="bidprice"]').text('');
+                $('[name="bidprice"]').append('Rp'+out+' <small class="text-muted">/ year</small>');
+              }              
             }
           },
           error: function (jqXHR, textStatus, errorThrown)
